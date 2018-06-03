@@ -13,18 +13,25 @@ module.exports = function (app) {
             var $ = cheerio.load(response.data);
 
             // Now, we grab every h2 within an article tag, and do the following:
-            $("h2.title").each(function (i, element) {
+            $("div.item-info").each(function (i, element) {
                 // Save an empty result object
                 var result = {};
 
                 // Add the text and href of every link, and save them as properties of the result object
                 result.title = $(this)
-                    .children("a")
+                    .children("article")
+                    .children(".audio-module")
+                    .children("h4")
                     .text();
                 result.link = $(this)
+                    .children("article")
+                    .children(".audio-module")
+                    .children(".audio-module-tools")
+                    .children("ul")
+                    .children(".audio-tool-transcript")
                     .children("a")
                     .attr("href");
-
+                console.log(result);
                 // Create a new Episode using the `result` object built from scraping
                 db.Episode.create(result)
                     .then(function (dbEpisode) {
@@ -36,7 +43,7 @@ module.exports = function (app) {
                         return res.json(err);
                     });
             });
-            res.send(results);
+            res.send("scrape complete");
         });
     });
 
