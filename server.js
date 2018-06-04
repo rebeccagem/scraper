@@ -38,8 +38,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 // Requiring our routes
-require("./routes/html-routes.js")(app);
-require("./routes/api-routes.js")(app);
+require("./controllers/controller.js")(app);
 
 // Start the server
 app.listen(PORT, function() {

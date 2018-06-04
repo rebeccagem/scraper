@@ -2,8 +2,30 @@
     <div class="container">
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center">
-                <h1>Hello World</h1>
-                <div id="articles"></div>
+                {{#each episodes}}
+                <div class="card">
+                    <div class="card-body align-self-center">
+                        <div class="row align-content-center">
+                            <div class="col-md-10">
+                                <h1 class="card-title">{{this.title}}
+                                    <a href="#" class="card-link">
+                                        <i class="far fa-heart"></i>
+                                    </a>
+                                </h1>
+                                <h2 class="card-subtitle mb-2 text-muted">{{this.date}}</h2>
+                                <p class="card-text">{{this.blurb}}</p>
+                            </div>
+                            <div class="col-md-2 align-self-center">
+                                <a href="{{this.embed}}" target="_blank" class="card-link">
+                                    <i class="far fa-play-circle fa-5x"></i>
+                                </a>
+                            </div>
+                        </div>
+                        {{!--
+                        <iframe src="{{this.embed}}" width="100%" height="290" frameborder="0" scrolling="no" title="NPR embedded audio player"></iframe> --}}
+                    </div>
+                </div>
+                {{/each}}
                 <div id="notes"></div>
             </div>
         </div>
