@@ -9,11 +9,9 @@ var path = require("path");
 var Notes = ('../models/Note.js');
 var Episodes = ('../models/Episode.js');
 
-
 module.exports = function (app) {
 
-    // A GET route for scraping the website
-    app.get("/scrape", function (req, res) {
+    function scraper(cb) {
         var results = [];
 
         // First, we grab the body of the html with request
@@ -48,22 +46,53 @@ module.exports = function (app) {
                     .children("time")
                     .children(".date")
                     .text();
-                console.log(result);
                 results.push(result);
                 // Create a new Episode using the `result` object built from scraping
-                db.Episode.create(result)
-                    .then(function (dbEpisode) {
-                        // View the added result in the console
-                        console.log(dbEpisode);
-                    })
-                    .catch(function (err) {
-                        // If an error occurred, send it to the client
-                        return res.json(err);
-                    });
+                // db.Episode.create(result)
+                //     .then(function (dbEpisode) {
+                //         // View the added result in the console
+                //         console.log(dbEpisode);
+                //     })
+                //     .catch(function (err) {
+                //         // If an error occurred, send it to the client
+                //         return res.json(err);
+                //     });
             });
-            res.render("index", { episodes: results })
+            cb(results);
+        });
+
+    }
+
+
+
+
+    // A GET route for scraping the website
+    app.get("/", function (req, res) {
+        scraper(function (data) {
+            res.render("index", { episodes: data })
         });
     });
+
+
+
+    // A GET route for scraping the website
+    app.get("/scrape", function (req, res) {
+        scraper(function (data) {
+            res.render("index", { episodes: data })
+        });
+    });
+
+    app.post("/save", function (req, res) {
+        db.Episode.create(result)
+            .then(function (dbEpisode) {
+                // View the added result in the console
+                console.log(dbEpisode);
+            })
+            .catch(function (err) {
+                // If an error occurred, send it to the client
+                return res.json(err);
+            });
+    })
 
     // Route for getting all Articles from the db
     app.get("/episodes", function (req, res) {
@@ -79,6 +108,8 @@ module.exports = function (app) {
             });
 
     });
+
+
 
     // // Route for grabbing a specific Article by id, populate it with it's note
     // app.get("/episodes/:id", function (req, res) {
@@ -117,9 +148,8 @@ module.exports = function (app) {
     //         });
     // });
 
-    app.get("/", function (req, res) {
-        res.render("index");
-    });
-
+    // app.get("/", function (req, res) {
+    //     res.render("index");
+    // });
 
 };
