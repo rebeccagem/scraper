@@ -46,31 +46,52 @@ module.exports = function (app) {
                     .children("time")
                     .children(".date")
                     .text();
+                result.datetime = $(this)
+                    .children(".episode-date")
+                    .children("time")
+                    .attr("datetime");
                 results.push(result);
                 // Create a new Episode using the `result` object built from scraping
-                // db.Episode.create(result)
-                //     .then(function (dbEpisode) {
-                //         // View the added result in the console
-                //         console.log(dbEpisode);
-                //     })
-                //     .catch(function (err) {
-                //         // If an error occurred, send it to the client
-                //         return res.json(err);
-                //     });
+                db.Episode.create(result)
+                    .then(function (dbEpisode) {
+                        // View the added result in the console
+                        console.log(dbEpisode);
+                    })
+                    .catch(function (err) {
+                        // If an error occurred, send it to the client
+                        return res.json(err);
+                    });
             });
             cb(results);
         });
-
     }
-
-
-
 
     // A GET route for scraping the website
     app.get("/", function (req, res) {
-        scraper(function (data) {
-            res.render("index", { episodes: data })
-        });
+        db.Episode.find({}).sort({ _id: -1 })
+            .then(function (data) {
+                // View the added result in the console
+                res.render("index", { episodes: data })
+            })
+            .catch(function (err) {
+                // If an error occurred, send it to the client
+                return res.json(err);
+            });
+
+    });
+
+    // A GET route for scraping the website
+    app.get("/saved", function (req, res) {
+        db.Episode.find({}).sort({ _id: -1 })
+            .then(function (data) {
+                // View the added result in the console
+                res.render("saved", { episodes: data })
+            })
+            .catch(function (err) {
+                // If an error occurred, send it to the client
+                return res.json(err);
+            });
+
     });
 
 
@@ -78,15 +99,14 @@ module.exports = function (app) {
     // A GET route for scraping the website
     app.get("/scrape", function (req, res) {
         scraper(function (data) {
-            res.render("index", { episodes: data })
+            window.location.reload();
         });
     });
 
-    app.post("/save", function (req, res) {
-        db.Episode.create(result)
+    app.post("/save/:id", function (req, res) {
+        db.Episode.findOneAndUpdate({ _id: req.params.id }, {saved: true})
             .then(function (dbEpisode) {
-                // View the added result in the console
-                console.log(dbEpisode);
+                window.location.reload();
             })
             .catch(function (err) {
                 // If an error occurred, send it to the client
