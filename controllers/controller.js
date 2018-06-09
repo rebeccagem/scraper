@@ -68,7 +68,7 @@ module.exports = function (app) {
 
     // A GET route for scraping the website
     app.get("/", function (req, res) {
-        db.Episode.find({}).sort({ _id: -1 })
+        db.Episode.find({}).sort({ _id: 1 })
             .then(function (data) {
                 // View the added result in the console
                 res.render("index", { episodes: data })
@@ -82,7 +82,7 @@ module.exports = function (app) {
 
     // A GET route for scraping the website
     app.get("/saved", function (req, res) {
-        db.Episode.find({}).sort({ _id: -1 })
+        db.Episode.find({}).sort({ _id: 1 })
             .then(function (data) {
                 // View the added result in the console
                 res.render("saved", { episodes: data })
