@@ -8,12 +8,11 @@
                     <div class="card-body align-self-center">
                         <div class="row align-content-center">
                             <div class="col-md-12">
-                                <h1 class="card-title">{{title}}
-                                    <a href="#" id="save" data-id="{{_id}}" class="card-link favorite">
+                                <h1 class="card-title">{{title}}&nbsp;{{saved}}
+                                    <a href="#" id="delete" data-id="{{_id}}" class="card-link favorite">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </h1>
-
                                  <iframe src="{{this.embed}}" width="100%" height="290" frameborder="0" scrolling="no" title="NPR embedded audio player"></iframe>
                             </div>
                         </div>

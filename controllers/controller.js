@@ -21,7 +21,7 @@ module.exports = function (app) {
 
             // Now, we grab every h2 within an article tag, and do the following:
             $("div.item-info").each(function (i, element) {
-                // Save an empty result object
+                // // Save an empty result object
                 var result = {};
 
                 // Add the text and href of every link, and save them as properties of the result object
@@ -99,11 +99,12 @@ module.exports = function (app) {
     // A GET route for scraping the website
     app.get("/scrape", function (req, res) {
         scraper(function (data) {
-            window.location.reload();
+            // window.location.reload();
+            res.redirect("/");
         });
     });
 
-    app.post("/save/:id", function (req, res) {
+    app.post("/save/:id", function (req, res) { 
         db.Episode.findOneAndUpdate({ _id: req.params.id }, {saved: true})
             .then(function (dbEpisode) {
                 window.location.reload();
@@ -112,7 +113,20 @@ module.exports = function (app) {
                 // If an error occurred, send it to the client
                 return res.json(err);
             });
-    })
+    });
+
+    app.post("/delete/:id", function (req, res) { 
+        db.Episode.findOneAndUpdate({ _id: req.params.id }, {saved: false})
+            .then(function (dbEpisode) {
+                window.location.reload();
+            })
+            .catch(function (err) {
+                // If an error occurred, send it to the client
+                return res.json(err);
+            });
+    });
+
+
 
     // Route for getting all Articles from the db
     app.get("/episodes", function (req, res) {

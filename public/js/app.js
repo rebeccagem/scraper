@@ -65,3 +65,25 @@
       });
   
   });
+
+    // // When you click the delete button
+    $(document).on("click", "#delete", function() {
+      // Grab the id associated with the article from the submit button
+      var thisId = $(this).attr("data-id");
+    
+      // Run a POST request to change the note, using what's entered in the inputs
+      $.ajax({
+        method: "POST",
+        url: "/delete/" + thisId,
+        data: {
+          saved: false,
+        }
+      })
+        // With that done
+        .then(function(data) {
+          // Log the response
+          window.location.reload();
+          // Empty the notes section
+        });
+    
+    });
