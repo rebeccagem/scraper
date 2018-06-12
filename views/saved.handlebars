@@ -1,5 +1,7 @@
 <div class="content">
     <div class="container">
+        <row>
+            <p>Click the notebook button next to the player to take some helpful notes while you listen to these inspiring stories.</p>
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center">
                 {{#each episodes}} {{#if saved}}
@@ -7,7 +9,7 @@
                     <div class="card-body align-self-center">
                         <div class="row align-content-center">
                             <div class="col-md-12">
-                                <h1 class="card-title">{{title}}&nbsp;{{saved}}
+                                <h1 class="card-title">{{title}}&nbsp;
                                     <a href="#" id="delete" data-id="{{_id}}" class="card-link favorite">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
