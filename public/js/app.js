@@ -1,7 +1,5 @@
 $(document).ready(function(){
-  // // When you click the savenote button
   $(document).on("click", "#save", function() {
-    // Grab the id associated with the article from the submit button
     var thisId = $(this).attr("data-id");
 
     $.ajax({
@@ -20,9 +18,7 @@ $(document).ready(function(){
   
   });
 
-    // // When you click the delete button
     $(document).on("click", "#delete", function() {
-      // Grab the id associated with the article from the submit button
       var thisId = $(this).attr("data-id");
     
       $.ajax({
@@ -41,17 +37,58 @@ $(document).ready(function(){
     
     });
 
-    $('#modalTrigger').on('click', function(event) {
-      $('#exampleModalLong').modal({show:true}) 
-      console.log("is modal showing yet?") 
-      event.preventDefault();
-  });
 
 
-  $('#addNote').on('click', function(event) {
-    $('#notesModal').modal({show:true}) 
+  $('#addNote').on('click', function() {
     console.log("is modal showing yet?") 
-    event.preventDefault();
+    var thisId = $(this).attr("data-id");
+    console.log(thisId);
+
+
+    $.ajax({
+      method: "GET",
+      url: "/episodes/" + thisId
+    })
+    .then(function(data){
+  $('#notesModal').modal({show:true}) 
+      $("#episodeTitle").text(data.title);
+      $("#saveNotes").attr("data-id", thisId);
+  
+      console.log(data.note);
+      if (data.note){
+        $("#notesTitle").val(data.note.title);
+        $("#notesBody").html(data.note.body);
+      }
+    });
+
 });
+
+
+
+//click "save article notes"
+$(document).on("click", "#saveNotes", function(){
+  var thisId = $(this).attr("data-id");
+  var ntitle=$("#notesTitle").val();
+  var nbody = $("#notesBody").val();
+  console.log(ntitle, nbody);
+
+  //api post request
+  $.ajax({
+    method: "POST",
+    url: "/episodes/" + thisId,
+    data: {
+      title: ntitle,
+      body: nbody
+    }
+  })
+  .then(function(data){
+    console.log(data);
+
+    $("#notesTitle").val("");  
+    $("#notesBody").val("");
+  });
+})
+
+
 
 })
