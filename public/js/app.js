@@ -50,15 +50,9 @@ $(document).ready(function(){
       url: "/episodes/" + thisId
     })
     .then(function(data){
+      console.log(data)
   $('#notesModal').modal({show:true}) 
-      $("#episodeTitle").text(data.title);
-      $("#saveNotes").attr("data-id", thisId);
-  
-      console.log(data.note);
-      if (data.note){
-        $("#notesTitle").val(data.note.title);
-        $("#notesBody").html(data.note.body);
-      }
+
     });
 
 });
@@ -66,28 +60,28 @@ $(document).ready(function(){
 
 
 //click "save article notes"
-$(document).on("click", "#saveNotes", function(){
-  var thisId = $(this).attr("data-id");
-  var ntitle=$("#notesTitle").val();
-  var nbody = $("#notesBody").val();
-  console.log(ntitle, nbody);
+// $(document).on("click", "#saveNotes", function(){
+//   var thisId = $(this).attr("data-id");
+//   var ntitle=$("#notesTitle").val();
+//   var nbody = $("#notesBody").val();
+//   console.log(ntitle, nbody);
 
-  //api post request
-  $.ajax({
-    method: "POST",
-    url: "/episodes/" + thisId,
-    data: {
-      title: ntitle,
-      body: nbody
-    }
-  })
-  .then(function(data){
-    console.log(data);
+//   //api post request
+//   $.ajax({
+//     method: "POST",
+//     url: "/episodes/" + thisId,
+//     data: {
+//       title: ntitle,
+//       body: nbody
+//     }
+//   })
+//   .then(function(data){
+//     console.log(data);
 
-    $("#notesTitle").val("");  
-    $("#notesBody").val("");
-  });
-})
+//     $("#notesTitle").val("");  
+//     $("#notesBody").val("");
+//   });
+// })
 
 
 

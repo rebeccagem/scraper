@@ -24,12 +24,6 @@
                         </div>
                     </div>
 
-                    {{/if}} {{/each}}
-                </div>
-            </div>
-    </div>
-</div>
-
 <!-- Modal -->
 <div class="modal fade" id="notesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -43,23 +37,38 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p class="modal-title">What did the speaker prioritize to find success? What similarities do you share with
-                    them? What did you learn from the speaker?
+                <p class="modal-title">What did the speaker prioritize to find success? What similarities do you share with them? What did you learn
+                    from the speaker?
                 </p>
-                <form>
+                <form action="/episodes/{{_id}}" method="POST">
                     <div class="form-group">
                         <label for="notesTitle" class="col-form-label">Title:</label>
-                        <input type="text" class="form-control" id="notesTitle">
+                        <input type="text" class="form-control" name="title" id="notesTitle">
                     </div>
                     <div class="form-group">
                         <label for="notesBody" class="col-form-label">Notes:</label>
-                        <textarea class="form-control" id="notesBody"></textarea>
+                        <textarea name="body" class="form-control" id="notesBody"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit">submit</button>
                     </div>
                 </form>
+            </div>
+            <div class="pastNotes">
+                {{#each note}}
+                <h1>{{this.title}}</h1>
+                
+                <p>{{this.body}}</p>
+                {{/each}}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="saveNotes">Save</button>
             </div>
         </div>
+    </div>
+</div>
+                    {{/if}} {{/each}}
+                </div>
+            </div>
     </div>
 </div>

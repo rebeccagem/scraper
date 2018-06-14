@@ -82,7 +82,7 @@ module.exports = function (app) {
 
     // A GET route for scraping the website
     app.get("/saved", function (req, res) {
-        db.Episode.find({}).sort({ _id: 1 })
+        db.Episode.find({}).sort({ _id: 1 }).populate("note")
             .then(function (data) {
                 // View the added result in the console
                 res.render("saved", { episodes: data })
@@ -144,7 +144,7 @@ module.exports = function (app) {
 
     app.get("/episodes/:id", function (req, res) {
         db.Episode.findOne({ _id: req.params.id })
-            .populate("Note")
+            .populate("note")
             .then(function (dbEpisode) {
                 res.json(dbEpisode);
             })
@@ -157,10 +157,11 @@ module.exports = function (app) {
     app.post("/episodes/:id", function (req, res) {
         db.Note.create(req.body)
             .then(function (dbNote) {
-                return db.Episode.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
+                return db.Episode.findOneAndUpdate({ _id: req.params.id }, { $push: { note: dbNote._id }}, { new: true });
             })
             .then(function (dbEpisode) {
-                res.json(dbEpisode);
+                res.redirect('/saved')
+
             })
             .catch(function (err) {
                 res.json(err);
