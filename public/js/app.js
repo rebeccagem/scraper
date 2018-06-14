@@ -57,32 +57,4 @@ $(document).ready(function(){
 
 });
 
-
-
-//click "save article notes"
-// $(document).on("click", "#saveNotes", function(){
-//   var thisId = $(this).attr("data-id");
-//   var ntitle=$("#notesTitle").val();
-//   var nbody = $("#notesBody").val();
-//   console.log(ntitle, nbody);
-
-//   //api post request
-//   $.ajax({
-//     method: "POST",
-//     url: "/episodes/" + thisId,
-//     data: {
-//       title: ntitle,
-//       body: nbody
-//     }
-//   })
-//   .then(function(data){
-//     console.log(data);
-
-//     $("#notesTitle").val("");  
-//     $("#notesBody").val("");
-//   });
-// })
-
-
-
 })
